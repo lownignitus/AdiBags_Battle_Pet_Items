@@ -1,7 +1,7 @@
 --[[
 AdiBags - Battle Pet Items
 by LownIgnitus
-version: v1.0.11
+version: v1.0.12
 Add various Battle Pet items to AdiBags filter groups
 ]]
 
@@ -10,7 +10,6 @@ local AdiBags = LibStub("AceAddon-3.0"):GetAddon("AdiBags")
 
 local L = addon.L
 local MatchIDs
-local Tooltip
 local Result = {}
 
 local function AddToSet(Set, List)
@@ -194,19 +193,6 @@ local function MatchIDs_Init(self)
 	return Result
 end
 
-local function Tooltip_Init()
-	local tip, leftside = CreateFrame("GameTooltip"), {}
-	for i = 1, 6 do
-		local Left, Right = tip:CreateFontString(), tip:CreateFontString()
-		Left:SetFontObject(GameFontNormal)
-		Right:SetFontObject(GameFontNormal)
-		tip:AddFontStrings(Left, Right)
-		leftside[i] = Left
-	end
-	tip.leftside = leftside
-	return tip
-end
-
 local setFilter = AdiBags:RegisterFilter("Battle Pet Items", 98, "ABEvent-1.0")
 setFilter.uiName = L["Battle Pet Items"]
 setFilter.uiDesc = L["Items that are connected to Battle Pets and not actual pets."]
@@ -244,18 +230,7 @@ function setFilter:Filter(slotData)
 	if MatchIDs[slotData.itemId] then
 		return L["Battle Pet Items"]
 	end
-	
-	Tooltip = Tooltip or Tooltip_Init()
-	Tooltip:SetOwner(UIParent,"ANCHOR_NONE")
-	Tooltip:ClearLines()
-	
-	if slotData.bag == BANK_CONTAINER then
-		Tooltip:SetInventoryItem("player", BankButtonIDToInvSlotID(slotData.slot, nil))
-	else
-		Tooltip:SetBagItem(slotData.bag, slotData.slot)
-	end
-	
-	Tooltip:Hide()
+    return nil
 end
 
 function setFilter:GetOptions()
