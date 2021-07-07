@@ -230,7 +230,6 @@ function setFilter:Filter(slotData)
 	if MatchIDs[slotData.itemId] then
 		return L["Battle Pet Items"]
 	end
-    return nil
 end
 
 function setFilter:GetOptions()
